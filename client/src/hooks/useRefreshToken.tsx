@@ -8,7 +8,7 @@ export const useRefreshToken = () => {
 
   const refresh = useCallback(async () => {
     try {
-      const response = await axiosPublic.get("/refresh-token", {
+      const response = await axiosPublic.get("auth/refresh-tokens", {
         withCredentials: true,
       });
 

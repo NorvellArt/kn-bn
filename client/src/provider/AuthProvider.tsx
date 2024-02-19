@@ -1,6 +1,7 @@
 import { createContext, useReducer, Dispatch } from "react";
 import * as authTypes from "../types/actions/authTypes";
 import { ChildrenProps } from "../types/props";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
     auth: any;
@@ -23,6 +24,11 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
 };
 
 const reducer = (auth: any, action: any) => {
+    
+    console.log('auth', auth)
+    console.log('action', action)
+    
+
     switch (action.type) {
         case authTypes.LOGIN_WITH_USERNAME_SUCCESS:
         case authTypes.REFRESH_ACCESS_TOKEN:
@@ -31,7 +37,7 @@ const reducer = (auth: any, action: any) => {
                 isLoading: false,
                 isAppLoaded: true,
                 isAuthenticated: true,
-                user: { ...auth?.user, ...action.payload },
+                user: jwtDecode(action.payload.accessToken),
             };
 
         case authTypes.LOGOUT_SUCCESS:
@@ -43,7 +49,7 @@ const reducer = (auth: any, action: any) => {
         case authTypes.UPDATE_USER_SUCCESS:
             return {
                 ...auth,
-                user: { ...action.payload },
+                user: jwtDecode(action.payload.accessToken),
                 isLoading: false,
                 isAuthenticated: true,
             };
@@ -73,7 +79,7 @@ const reducer = (auth: any, action: any) => {
                 isLoading: false,
                 isAppLoaded: true,
                 isAuthenticated: true,
-                user: { ...action.payload },
+                user: jwtDecode(action.payload.accessToken),
             };
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);

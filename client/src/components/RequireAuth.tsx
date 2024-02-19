@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-type Role = "admin" | "user";
+type Role = "ADMIN" | "USER";
 
 type AllowedRoles = Array<Role>;
 

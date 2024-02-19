@@ -21,11 +21,11 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
 
-                    <Route element={<RequireAuth allowedRoles={["user"]} />}>
+                    <Route element={<RequireAuth allowedRoles={["USER"]} />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                     </Route>
 
-                    <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+                    <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
                         <Route path="/admin" element={<Admin />} />
                     </Route>
                 </Route>

@@ -5,15 +5,15 @@ import { axiosPublic } from "../../../api/axios";
 export const SignupBox = () => {
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await axiosPublic.post("/signup", { username, password });
+        await axiosPublic.post("auth/register", { email, password });
         setPassword("");
-        setUsername("");
+        setEmail("");
         navigate("/login");
     };
 
@@ -22,15 +22,15 @@ export const SignupBox = () => {
         <form onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
 
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-                value={username}
+                value={email}
                 onChange={(e) => {
-                    setUsername(e.target.value);
+                    setEmail(e.target.value);
                 }}
-                type="username"
-                name="username"
-                id="username"
+                type="email"
+                name="email"
+                id="email"
             />
 
             <label htmlFor="password">Password</label>

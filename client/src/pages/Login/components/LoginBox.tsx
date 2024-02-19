@@ -10,16 +10,17 @@ export const LoginBox = () => {
     const location = useLocation();
     const from = location?.state?.from?.pathname || "/";
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const response = await axiosPublic.post("/login", {
-            username,
+        const response = await axiosPublic.post("auth/login", {
+            email,
             password,
         });
+
         const accessToken = response?.data?.accessToken;
 
         if (accessToken) {
@@ -29,7 +30,7 @@ export const LoginBox = () => {
             });
 
             setPassword("");
-            setUsername("");
+            setEmail("");
             navigate(from, { replace: true });
         }
     };
@@ -39,15 +40,15 @@ export const LoginBox = () => {
         <form onSubmit={handleSubmit}>
             <h1>Log In</h1>
 
-            <label htmlFor="username">Username</label>
+            <label htmlFor="Email">Email</label>
             <input
-                value={username}
+                value={email}
                 onChange={(e) => {
-                    setUsername(e.target.value);
+                    setEmail(e.target.value);
                 }}
-                type="username"
-                name="username"
-                id="username"
+                type="email"
+                name="email"
+                id="email"
             />
 
             <label htmlFor="password">Password</label>
