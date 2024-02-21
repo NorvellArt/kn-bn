@@ -12,8 +12,9 @@ export const useAxiosPrivate = () => {
         // by adding req interceptors to attach jwt accessToken to header
         const requestInterceptor = axiosPrivate.interceptors.request.use(
             (request) => {
+                console.log(auth)
                 if (!request.headers["Authorization"]) {
-                    request.headers["Authorization"] = `Bearer ${auth?.user?.accessToken}`;
+                    request.headers["Authorization"] = `${auth?.user?.accessToken}`;
                 }
                 return request;
             },

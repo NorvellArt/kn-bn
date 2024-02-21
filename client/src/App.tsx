@@ -9,12 +9,15 @@ import { Signup } from "./pages/SignUp/SignUp";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Admin } from "./pages/Admin/Admin";
 import { Error } from "./pages/Error/Error";
+import CssBaseline from '@mui/material/CssBaseline';
 
 import "./App.css";
 
 function App() {
     return (
-        <BrowserRouter>
+        <>
+        <CssBaseline />
+         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
                     <Route path="/" element={<Home />} />
@@ -34,6 +37,8 @@ function App() {
                 <Route path="*" element={<Error />} />
             </Routes>
         </BrowserRouter>
+        </>
+       
     );
 }
 

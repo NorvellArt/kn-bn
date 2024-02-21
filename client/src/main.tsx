@@ -3,8 +3,6 @@ import App from "./App.tsx";
 import { AuthProvider } from "./provider/AuthProvider.tsx";
 import { PersistentLogin } from "./provider/PersistentLogin.tsx";
 
-import "./index.css";
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthProvider>
             <PersistentLogin>
