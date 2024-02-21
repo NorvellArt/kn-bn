@@ -1,8 +1,16 @@
-import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { axiosPublic } from "../../../api/axios";
-import { useAuth } from "../../../hooks/useAuth";
 import { LOGIN_WITH_USERNAME_SUCCESS } from "../../../types/actions/authTypes";
+
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+
+import { useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const LoginBox = () => {
     const { dispatch } = useAuth();
@@ -37,37 +45,61 @@ export const LoginBox = () => {
 
     //no validation
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Log In</h1>
+        <Box
+            sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                Login
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                    }}
+                />
 
-            <label htmlFor="Email">Email</label>
-            <input
-                value={email}
-                onChange={(e) => {
-                    setEmail(e.target.value);
-                }}
-                type="email"
-                name="email"
-                id="email"
-            />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
+                />
 
-            <label htmlFor="password">Password</label>
-            <input
-                value={password}
-                onChange={(e) => {
-                    setPassword(e.target.value);
-                }}
-                type="password"
-                name="password"
-                id="password"
-            />
+                <Button fullWidth type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
+                    Log In
+                </Button>
 
-            <button>Log In</button>
-            <Link to={"/settings"}>Forgot Password?</Link>
-
-            <p>
-                Don&#39;t have an account? <Link to={"/signup"}>Sign Up</Link>
-            </p>
-        </form>
+                <Box
+                    sx={{
+                        textAlign: "center",
+                    }}>
+                    Don&#39;t have an account? <Link to={"/signup"}>Sign Up</Link>
+                </Box>
+            </Box>
+        </Box>
     );
 };

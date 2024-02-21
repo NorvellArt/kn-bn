@@ -24,11 +24,6 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
 };
 
 const reducer = (auth: any, action: any) => {
-    
-    console.log('auth', auth)
-    console.log('action', action)
-    
-
     switch (action.type) {
         case authTypes.LOGIN_WITH_USERNAME_SUCCESS:
         case authTypes.REFRESH_ACCESS_TOKEN:
@@ -37,7 +32,10 @@ const reducer = (auth: any, action: any) => {
                 isLoading: false,
                 isAppLoaded: true,
                 isAuthenticated: true,
-                user: jwtDecode(action.payload.accessToken),
+                user: {
+                    ...jwtDecode(action.payload.accessToken),
+                    accessToken: action.payload.accessToken,
+                },
             };
 
         case authTypes.LOGOUT_SUCCESS:
@@ -49,7 +47,10 @@ const reducer = (auth: any, action: any) => {
         case authTypes.UPDATE_USER_SUCCESS:
             return {
                 ...auth,
-                user: jwtDecode(action.payload.accessToken),
+                user: {
+                    ...jwtDecode(action.payload.accessToken),
+                    accessToken: action.payload.accessToken,
+                },
                 isLoading: false,
                 isAuthenticated: true,
             };
@@ -79,7 +80,10 @@ const reducer = (auth: any, action: any) => {
                 isLoading: false,
                 isAppLoaded: true,
                 isAuthenticated: true,
-                user: jwtDecode(action.payload.accessToken),
+                user: {
+                    ...jwtDecode(action.payload.accessToken),
+                    accessToken: action.payload.accessToken,
+                },
             };
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);

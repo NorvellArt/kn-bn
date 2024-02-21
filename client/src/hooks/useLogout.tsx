@@ -8,7 +8,7 @@ export const useLogout = () => {
     const { dispatch } = useAuth();
 
     const logout = useCallback(async () => {
-        await axiosPrivate.get("/logout");
+        await axiosPrivate.get("auth/logout");
         dispatch({ type: LOGOUT_SUCCESS });
     }, [dispatch]);
 
