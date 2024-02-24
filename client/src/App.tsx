@@ -20,9 +20,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<Layout />}>
-                        <Route path="/" element={<Home />} />
 
-                        <Route element={<RequireAuth allowedRoles={["USER"]} />}>
+                        <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
                             <Route path="/dashboard" element={<Dashboard />} />
                         </Route>
 
@@ -31,6 +30,7 @@ function App() {
                         </Route>
                     </Route>
 
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
 
