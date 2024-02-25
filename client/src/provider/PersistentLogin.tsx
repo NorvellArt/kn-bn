@@ -7,10 +7,9 @@ import {
     PERSISTENT_LOGIN_LOADING,
     PERSISTENT_LOGIN_SUCCESS,
 } from "../types/actions/authTypes";
-import { Loading } from "../components/Loading";
 
 export const PersistentLogin = ({ children }: ChildrenProps) => {
-    const { auth, dispatch } = useAuth();
+    const { dispatch } = useAuth();
     const refresh = useRefreshToken();
 
     useEffect(() => {
@@ -28,10 +27,6 @@ export const PersistentLogin = ({ children }: ChildrenProps) => {
         };
         persistentLogin();
     }, [dispatch, refresh]);
-
-    if (!auth.isAppLoaded) {
-        return <Loading type={"circle"} />;
-    }
 
     return <>{children}</>;
 };
