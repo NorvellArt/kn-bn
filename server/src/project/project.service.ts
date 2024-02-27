@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto';
-import { User } from '@prisma/client';
+import { User, Prisma, Project } from '@prisma/client';
 import { PrismaService } from '@/prisma/prisma.service';
 
 @Injectable()
 export class ProjectService {
-    constructor(private readonly prismaService: PrismaService) {}
+    constructor(private prismaService: PrismaService) {}
 
     public async createProjects(input: CreateProjectDto, user: User) {
         return await this.prismaService.project.create({
@@ -13,6 +13,18 @@ export class ProjectService {
                 name: input.name,
                 user: { connect: { id: user.id } },
             },
+        });
+    }
+
+    public async updateProject(params: {
+        where: Prisma.ProjectWhereUniqueInput;
+        data: Prisma.ProjectUpdateInput;
+    }): Promise<Project> {
+        const { data, where } = params;
+
+        return this.prismaService.project.update({
+            data,
+            where,
         });
     }
 }
