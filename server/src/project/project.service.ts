@@ -7,7 +7,21 @@ import { PrismaService } from '@/prisma/prisma.service';
 export class ProjectService {
     constructor(private prismaService: PrismaService) {}
 
-    public async createProjects(input: CreateProjectDto, user: User) {
+    public async findOne(id: string): Promise<Project> {
+        return await this.prismaService.project.findUnique({
+            where: { id },
+        });
+    }
+
+    public async findMany(userId: string): Promise<Project[]> {
+        return await this.prismaService.project.findMany({
+            where: {
+                userId,
+            },
+        });
+    }
+
+    public async createProject(input: CreateProjectDto, user: User) {
         return await this.prismaService.project.create({
             data: {
                 name: input.name,
@@ -22,9 +36,15 @@ export class ProjectService {
     }): Promise<Project> {
         const { data, where } = params;
 
-        return this.prismaService.project.update({
+        return await this.prismaService.project.update({
             data,
             where,
+        });
+    }
+
+    public async deleteProject(id: string): Promise<Project> {
+        return await this.prismaService.project.delete({
+            where: { id },
         });
     }
 }
