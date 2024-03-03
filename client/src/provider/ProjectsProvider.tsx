@@ -1,11 +1,7 @@
 import { Dispatch, createContext, useReducer } from "react";
 import { ChildrenProps } from "../types/props";
 import { ProjectActionType } from "../types/actions/projectTypes";
-
-interface Project {
-    id: string;
-    name: string;
-}
+import { Project } from "../types/models/Projects";
 
 interface ProjectsContextType {
     projects: Project[];
