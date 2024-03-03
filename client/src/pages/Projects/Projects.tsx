@@ -1,15 +1,14 @@
 import { useProjects } from "../../hooks/useProjects";
 import { ProjectsProvider } from "../../provider/ProjectsProvider";
+import ProjectsTable from "./components/ProjectsTable";
 
 const ProjectsComponent = () => {
     const { projects } = useProjects();
 
     return (
-        <div>
-            {projects.map((project) => {
-                return <div key={project.id}>{project.name}</div>;
-            })}
-        </div>
+        <>
+            <ProjectsTable projects={projects} />
+        </>
     );
 };
 
