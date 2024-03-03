@@ -7,9 +7,10 @@ import {
     PERSISTENT_LOGIN_LOADING,
     PERSISTENT_LOGIN_SUCCESS,
 } from "../types/actions/authTypes";
+import { Loading } from "../components/Loading";
 
 export const PersistentLogin = ({ children }: ChildrenProps) => {
-    const { dispatch } = useAuth();
+    const { auth, dispatch } = useAuth();
     const refresh = useRefreshToken();
 
     useEffect(() => {
@@ -27,6 +28,10 @@ export const PersistentLogin = ({ children }: ChildrenProps) => {
         };
         persistentLogin();
     }, [dispatch, refresh]);
+
+    if (!auth.isAppLoaded) {
+        return <Loading />; // TODO: Подумать как избавиться от глобальной загрузки
+    }
 
     return <>{children}</>;
 };
