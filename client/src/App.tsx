@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Layout } from "./components/Layout";
+import Layout from "./components/Layout/Layout";
 import { RequireAuth } from "./components/RequireAuth";
 
 import { Home } from "./pages/Home/Home";
@@ -9,6 +9,7 @@ import { Signup } from "./pages/SignUp/SignUp";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Admin } from "./pages/Admin/Admin";
 import { Error } from "./pages/Error/Error";
+import Projects from "./pages/Projects/Projects";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import "./App.css";
@@ -20,9 +21,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<Layout />}>
-
                         <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
-                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/dashboards" element={<Dashboard />} />
+                            <Route path="/projects" element={<Projects />} />
                         </Route>
 
                         <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>

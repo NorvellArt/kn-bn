@@ -14,13 +14,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import DrawerComponent from "./components/Drawer";
 
-import { useAuth } from "../hooks/useAuth";
-import { useLogout } from "../hooks/useLogout";
+import { LayoutProvider } from "../../provider/LayoutProvider";
 
-export const Layout = () => {
+import { useAuth } from "../../hooks/useAuth";
+import { useLogout } from "../../hooks/useLogout";
+import { useLayout } from "../../hooks/useLayout";
+
+const LayoutComponent = () => {
     const { auth } = useAuth();
     const logout = useLogout();
+    const { open, toggleDrawer, drawerItems, currentPage } = useLayout();
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -31,7 +36,7 @@ export const Layout = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
- 
+
     const onLogoutClick = async () => {
         await logout();
     };
@@ -45,12 +50,12 @@ export const Layout = () => {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
+                        onClick={toggleDrawer}
                         sx={{ mr: 2 }}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {/* TODO: Динамическое название раздела */}
-                        Dashboard
+                        {currentPage()}
                     </Typography>
                     <IconButton
                         size="large"
@@ -89,7 +94,20 @@ export const Layout = () => {
                     </Menu>
                 </Toolbar>
             </AppBar>
+
+            <DrawerComponent open={open} toggleDrawer={toggleDrawer} drawerItems={drawerItems} />
+
             <Outlet />
         </>
     );
 };
+
+const Layout = () => {
+    return (
+        <LayoutProvider>
+            <LayoutComponent />
+        </LayoutProvider>
+    );
+};
+
+export default Layout;

@@ -24,7 +24,7 @@ export const Home = () => {
                             textAlign: "center",
                             mt: 2
                         }}>
-                        Go to <Link to={"/dashboard"}>Dashboards</Link>
+                        Go to <Link to={"/dashboards"}>Dashboards</Link>
                     </Box>
                 </Box>
             </Container>
