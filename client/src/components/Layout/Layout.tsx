@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import DrawerComponent from "./components/Drawer";
+import Container from "@mui/material/Container";
 
 import { LayoutProvider } from "../../provider/LayoutProvider";
 
@@ -97,7 +98,9 @@ const LayoutComponent = () => {
 
             <DrawerComponent open={open} toggleDrawer={toggleDrawer} drawerItems={drawerItems} />
 
-            <Outlet />
+            <Container maxWidth="lg">
+                <Outlet />
+            </Container>
         </>
     );
 };
