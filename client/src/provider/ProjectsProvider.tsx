@@ -5,7 +5,7 @@ import { Project } from "../types/models/Projects";
 
 interface ProjectsContextType {
     projects: Project[];
-    dispatch: Dispatch<Action>
+    dispatch: Dispatch<Action>;
 }
 
 interface Action {
@@ -18,7 +18,11 @@ export const ProjectsContext = createContext({} as ProjectsContextType);
 export const ProjectsProvider = ({ children }: ChildrenProps) => {
     const [projects, dispatch] = useReducer(reducer, []);
 
-    return <ProjectsContext.Provider value={{ projects, dispatch }}>{children}</ProjectsContext.Provider>;
+    return (
+        <ProjectsContext.Provider value={{ projects, dispatch }}>
+            {children}
+        </ProjectsContext.Provider>
+    );
 };
 
 const reducer = (projects: Project[], action: Action) => {
@@ -28,6 +32,12 @@ const reducer = (projects: Project[], action: Action) => {
         case ProjectActionType.LOAD_PROJECTS: {
             if (Array.isArray(payload)) {
                 return payload;
+            }
+            return projects;
+        }
+        case ProjectActionType.CREATE_PROJECT: {
+            if (!Array.isArray(payload)) {
+                return [...projects, payload];
             }
             return projects;
         }

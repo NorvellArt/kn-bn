@@ -26,7 +26,7 @@ const columns: Column[] = [
 const ProjectsTable: React.FC<Props> = ({ projects }) => {
     return (
         <Paper sx={{ width: "100%", overflow: "hidden", mt: 2 }} elevation={4}>
-            <TableContainer>
+            <TableContainer sx={{ maxHeight: "75vh" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
