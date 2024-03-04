@@ -56,7 +56,7 @@ const LayoutComponent = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {currentPage()}
+                        {currentPage}
                     </Typography>
                     <IconButton
                         size="large"

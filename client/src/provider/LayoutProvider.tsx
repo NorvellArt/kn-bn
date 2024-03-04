@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import { ChildrenProps } from "../types/props";
 import { useLocation, useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/String";
@@ -12,14 +12,14 @@ export interface DrawerItem {
 interface LayoutContextType {
     open: boolean;
     drawerItems: DrawerItem[];
+    currentPage: string;
 
-    currentPage: () => string;
     toggleDrawer: () => void;
 }
 
 const Pages = {
-    DASHBOARDS: 'Dashboards',
-    PROJECTS: 'Projects',
+    DASHBOARDS: "Dashboards",
+    PROJECTS: "Projects",
 } as const;
 
 export const LayoutContext = createContext({} as LayoutContextType);
@@ -38,9 +38,9 @@ export const LayoutProvider = ({ children }: ChildrenProps) => {
         toggleDrawer();
     };
 
-    const currentPage = useCallback(() => capitalizeFirstLetter(pathname.slice(1)), [pathname]);
+    const currentPage = useMemo(() => capitalizeFirstLetter(pathname.slice(1)), [pathname]);
 
-    const isSelected = useCallback((path: string) => path === currentPage(), [currentPage]);
+    const isSelected = (path: string) => path === currentPage;
 
     const drawerItems: DrawerItem[] = [
         {
