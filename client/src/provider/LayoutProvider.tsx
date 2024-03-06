@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import { ChildrenProps } from "../types/props";
 import { useLocation, useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/String";
@@ -38,7 +38,12 @@ export const LayoutProvider = ({ children }: ChildrenProps) => {
         toggleDrawer();
     };
 
-    const currentPage = useMemo(() => capitalizeFirstLetter(pathname.slice(1)), [pathname]);
+    const getPageName = useCallback(() => {
+        const pageName = pathname.split("/")[1];
+        return capitalizeFirstLetter(pageName);
+    }, [pathname]);
+
+    const currentPage = useMemo(getPageName, [getPageName]);
 
     const isSelected = (path: string) => path === currentPage;
 
