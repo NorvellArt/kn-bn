@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     projects: Project[];
@@ -24,8 +25,10 @@ const columns: Column[] = [
 ];
 
 const ProjectsTable: React.FC<Props> = ({ projects }) => {
+    const navigate = useNavigate();
+
     return (
-        <Paper sx={{ width: "100%", overflow: "hidden", mt: 2 }} elevation={4}>
+        <Paper sx={{ width: "100%", overflow: "hidden", mt: 2 }} variant="outlined">
             <TableContainer sx={{ maxHeight: "75vh" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -44,7 +47,7 @@ const ProjectsTable: React.FC<Props> = ({ projects }) => {
                                     tabIndex={-1}
                                     key={project.id}
                                     sx={{ cursor: "pointer" }}
-                                    onClick={() => console.log("TODO: добавить коллбек для открытия проекта", project.id)}>
+                                    onClick={() => navigate(`${project.id}`)}>
                                     {columns.map(({ id }) => (
                                         <TableCell key={id}> {project[id]} </TableCell>
                                     ))}
