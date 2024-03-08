@@ -41,6 +41,12 @@ const reducer = (projects: Project[], action: Action) => {
             }
             return projects;
         }
+        case ProjectActionType.DELETE_PROJECT: {
+            if (!Array.isArray(payload)) {
+                return projects.filter(project => project.id !== payload.id);
+            }
+            return projects;
+        }
         default:
             return projects;
     }

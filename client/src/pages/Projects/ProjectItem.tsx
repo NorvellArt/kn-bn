@@ -5,8 +5,9 @@ import ProjectModel from "./models/ProjectModel";
 import ProjectHeader from "./components/ProjectHeader";
 import { Loading } from "../../components/Loading";
 import ProjectInfo from "./components/ProjectInfo";
+import { ProjectsProvider } from "../../provider/ProjectsProvider";
 
-const ProjectItem: React.FC = () => {
+const ProjectItemComponent: React.FC = () => {
     const { id } = useParams();
     const axiosPrivate = useAxiosPrivate();
 
@@ -39,6 +40,14 @@ const ProjectItem: React.FC = () => {
                 <Loading />
             )}
         </>
+    );
+};
+
+const ProjectItem = () => {
+    return (
+        <ProjectsProvider>
+            <ProjectItemComponent />
+        </ProjectsProvider>
     );
 };
 
