@@ -1,37 +1,34 @@
-import { useState } from "react";
-import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
+import BootstrapDialog from "../../../sharedComponents/BootstrapDialog/BootstrapDialog";
 
 import Button from "@mui/material/Button";
-import CloseIcon from "@mui/icons-material/Close";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
-import { useProjects } from "../../../hooks/useProjects";
-import { ProjectActionType } from "../../../types/actions/projectTypes";
-import BootstrapDialog from "../../../sharedComponents/BootstrapDialog/BootstrapDialog";
+
+import { Project } from "../../../types/models/Projects";
+import { useState } from "react";
+import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
+import ProjectModel from "../models/ProjectModel";
 
 interface Props {
     open: boolean;
     handleClose: () => void;
+    project: Project,
+    updateProject: (project: ProjectModel) => void
 }
 
-const CreateProjectDialog: React.FC<Props> = ({ open, handleClose }) => {
-    const [projectName, setProjectName] = useState("");
-    const axiosPrivate = useAxiosPrivate();
+const EditProjectDialog: React.FC<Props> = ({ open, handleClose, project, updateProject }) => {
+    const axiosPrivate = useAxiosPrivate()
 
-    const { dispatch } = useProjects();
+    const [projectName, setProjectName] = useState(project.name); 
 
-    const createProjectHandler = async () => {
+    const updateProjectHandler = async () => {
         try {
-            const response = await axiosPrivate.post("project", { name: projectName });
-
-            dispatch({
-                type: ProjectActionType.CREATE_PROJECT,
-                payload: response.data,
-            });
-
+            const response = await axiosPrivate.put(`project/${project.id}`, { name: projectName });
+            updateProject(response.data)
             handleClose();
         } catch (e) {
             console.log(e);
@@ -40,7 +37,7 @@ const CreateProjectDialog: React.FC<Props> = ({ open, handleClose }) => {
 
     return (
         <BootstrapDialog open={open} onClose={handleClose} maxWidth={"xs"} fullWidth>
-            <DialogTitle>Create a new Project</DialogTitle>
+            <DialogTitle>Edit Project</DialogTitle>
             <IconButton
                 aria-label="close"
                 onClick={handleClose}
@@ -68,12 +65,12 @@ const CreateProjectDialog: React.FC<Props> = ({ open, handleClose }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button disabled={projectName.length === 0} onClick={createProjectHandler}>
-                    Create
+                <Button onClick={updateProjectHandler}>
+                    Edit
                 </Button>
             </DialogActions>
         </BootstrapDialog>
     );
 };
 
-export default CreateProjectDialog;
+export default EditProjectDialog;
