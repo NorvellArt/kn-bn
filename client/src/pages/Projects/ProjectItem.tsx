@@ -12,11 +12,15 @@ const ProjectItem: React.FC = () => {
 
     const [project, setProject] = useState<ProjectModel>({} as ProjectModel);
 
+    const updateProject = (project: ProjectModel) => {
+        setProject(new ProjectModel(project));
+    };
+
     useEffect(() => {
         async function fetching() {
             try {
                 const result = await axiosPrivate.get(`project/${id}`);
-                setProject(new ProjectModel(result.data));
+                updateProject(result.data);
             } catch (e) {
                 console.log(e);
             }
@@ -28,7 +32,7 @@ const ProjectItem: React.FC = () => {
         <>
             {project.id ? (
                 <>
-                    <ProjectHeader name={project.name} />
+                    <ProjectHeader project={project} updateProject={updateProject} />
                     <ProjectInfo project={project} />
                 </>
             ) : (

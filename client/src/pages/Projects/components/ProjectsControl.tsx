@@ -19,7 +19,7 @@ const ProjectsControl: React.FC = () => {
     };
     return (
         <>
-            <Box display={"flex"} justifyContent={"space-between"} sx={{ mt: 3 }}>
+            <Box display={"flex"} justifyContent={"space-between"} alignItems={'center'} sx={{ mt: 3 }}>
                 <Typography variant="h6" component="div">
                     Projects Table
                 </Typography>
