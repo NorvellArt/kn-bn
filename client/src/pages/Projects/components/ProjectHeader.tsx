@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import EditProjectDialog from "./EditProjectDialog";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { Project } from "../../../types/models/Projects";
 import ProjectModel from "../models/ProjectModel";
 
@@ -20,6 +21,7 @@ interface Props {
 
 const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
     const [open, setOpen] = useState(false);
+    const [openDeleteProject, setOpenDeleteProject] = useState(false);
     const navigation = useNavigate();
 
     const handleClickOpen = () => {
@@ -28,6 +30,14 @@ const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpenDeleteProject = () => {
+        setOpenDeleteProject(true);
+    };
+
+    const handleCloseDeleteProject = () => {
+        setOpenDeleteProject(false);
     };
 
     return (
@@ -43,7 +53,10 @@ const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
                 </Box>
 
                 <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <Button variant="outlined" startIcon={<DeleteIcon />}>
+                    <Button
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={handleClickOpenDeleteProject}>
                         Delete
                     </Button>
 
@@ -61,6 +74,12 @@ const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
                 handleClose={handleClose}
                 project={project}
                 updateProject={updateProject}
+            />
+
+            <DeleteConfirmationDialog
+                open={openDeleteProject}
+                handleClose={handleCloseDeleteProject}
+                project={project}
             />
         </>
     );
