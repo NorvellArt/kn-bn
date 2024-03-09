@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
 
 import Button from "@mui/material/Button";
@@ -8,9 +8,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import { useProjects } from "../../../hooks/useProjects";
 import { ProjectActionType } from "../../../types/actions/projectTypes";
 import BootstrapDialog from "../../../sharedComponents/BootstrapDialog/BootstrapDialog";
+import { ProjectsContext } from "../../../provider/ProjectsProvider";
 
 interface Props {
     open: boolean;
@@ -21,7 +21,7 @@ const CreateProjectDialog: React.FC<Props> = ({ open, handleClose }) => {
     const [projectName, setProjectName] = useState("");
     const axiosPrivate = useAxiosPrivate();
 
-    const { dispatch } = useProjects();
+    const { dispatch } = useContext(ProjectsContext);
 
     const createProjectHandler = async () => {
         try {

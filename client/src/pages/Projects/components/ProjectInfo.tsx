@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import ProjectModel from "../models/ProjectModel";
+
 import { SxProps } from "@mui/material/styles";
+import ProjectModel from "../models/ProjectModel";
 
 interface Props {
     project: ProjectModel;
@@ -43,7 +44,6 @@ const ProjectInfo: React.FC<Props> = ({ project }) => {
 
     const getProjectField = (fields: ProjectField[]) => {
         return fields.map((field) => {
-            console.log({ field });
             return (
                 <Box key={field.label} display={"flex"} sx={field.styles}>
                     <Typography variant="subtitle2" sx={{ fontSize: 20 }}>

@@ -1,17 +1,32 @@
-import { useProjects } from "../../hooks/useProjects";
-import { ProjectsProvider } from "../../provider/ProjectsProvider";
-import ProjectsTable from "./components/ProjectsTable";
-import ProjectsControl from "./components/ProjectsControl";
+import { Outlet } from "react-router-dom";
+import { ProjectsContext, ProjectsProvider } from "../../provider/ProjectsProvider";
+import { ProjectActionType } from "../../types/actions/projectTypes";
+
+import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
+import { useContext, useEffect } from "react";
 
 const ProjectsComponent: React.FC = () => {
-    const { projects } = useProjects();
+    const axiosPrivate = useAxiosPrivate();
+    const { dispatch } = useContext(ProjectsContext);
 
-    return (
-        <>
-            <ProjectsControl />
-            <ProjectsTable projects={projects} />
-        </>
-    );
+    useEffect(() => {
+        async function fetching() {
+            try {
+                const response = await axiosPrivate("/project", { withCredentials: true });
+
+                dispatch({
+                    type: ProjectActionType.LOAD_PROJECTS,
+                    payload: response.data,
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        fetching();
+    }, [dispatch, axiosPrivate]);
+
+    return <Outlet />;
 };
 
 const Projects = () => {
