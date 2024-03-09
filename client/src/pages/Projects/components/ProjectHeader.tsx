@@ -15,16 +15,7 @@ import { ProjectsContext } from "../../../provider/ProjectsProvider";
 
 const ProjectHeader: React.FC = () => {
     const navigation = useNavigate();
-    const {
-        project,
-        openEditDialog,
-        openDeleteDialog,
-        handleOpenDeleteDialog,
-        handleOpenEditDialog,
-        handleCloseDeleteDialog,
-        handleCloseEditDialog,
-        updateProject,
-    } = useContext(ProjectsContext);
+    const { project, updateProject, openModal, toggleModal } = useContext(ProjectsContext);
 
     return (
         <>
@@ -42,13 +33,13 @@ const ProjectHeader: React.FC = () => {
                     <Button
                         variant="outlined"
                         startIcon={<DeleteIcon />}
-                        onClick={handleOpenDeleteDialog}>
+                        onClick={() => toggleModal("delete")}>
                         Delete
                     </Button>
 
                     <Button
                         variant="contained"
-                        onClick={handleOpenEditDialog}
+                        onClick={() => toggleModal("edit")}
                         startIcon={<EditOutlinedIcon />}>
                         Edit
                     </Button>
@@ -56,15 +47,15 @@ const ProjectHeader: React.FC = () => {
             </Box>
 
             <EditProjectDialog
-                open={openEditDialog}
-                handleClose={handleCloseEditDialog}
+                open={openModal.edit}
+                handleClose={() => toggleModal("edit")}
                 project={project}
                 updateProject={updateProject}
             />
 
             <DeleteConfirmationDialog
-                open={openDeleteDialog}
-                handleClose={handleCloseDeleteDialog}
+                open={openModal.delete}
+                handleClose={() => toggleModal("delete")}
                 project={project}
             />
         </>
