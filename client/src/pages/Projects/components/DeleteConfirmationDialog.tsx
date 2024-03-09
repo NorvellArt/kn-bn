@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BootstrapDialog from "../../../sharedComponents/BootstrapDialog/BootstrapDialog";
@@ -9,11 +9,11 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Project } from "../../../types/models/Projects";
 import { ProjectActionType } from "../../../types/actions/projectTypes";
 
 import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
-import { useProjects } from "../../../hooks/useProjects";
+import { Project } from "../models/ProjectModel";
+import { ProjectsContext } from "../../../provider/ProjectsProvider";
 
 interface Props {
     open: boolean;
@@ -23,7 +23,7 @@ interface Props {
 
 const DeleteConfirmationDialog: React.FC<Props> = ({ open, handleClose, project }) => {
     const axiosPrivate = useAxiosPrivate();
-    const { dispatch } = useProjects();
+    const { dispatch } = useContext(ProjectsContext);
     const navigate = useNavigate()
 
     const deleteHandler = async () => {

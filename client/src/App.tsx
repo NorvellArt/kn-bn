@@ -9,10 +9,11 @@ import { Signup } from "./pages/SignUp/SignUp";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Admin } from "./pages/Admin/Admin";
 import { Error } from "./pages/Error/Error";
-import Projects from "./pages/Projects/Projects";
+import ProjectsList from "./pages/Projects/ProjectsList";
 import ProjectItem from "./pages/Projects/ProjectItem";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import Projects from "./pages/Projects/Projects";
 
 const globalStyles = {
     body: { backgroundColor: "#F8F8F8" },
@@ -28,8 +29,10 @@ function App() {
                     <Route element={<Layout />}>
                         <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
                             <Route path="/dashboards" element={<Dashboard />} />
-                            <Route path="/projects" element={<Projects />} />
-                            <Route path="/projects/:id" element={<ProjectItem />} />
+                            <Route path="/projects" element={<Projects />}>
+                                <Route path="" element={<ProjectsList />} />
+                                <Route path=":id" element={<ProjectItem />} />
+                            </Route>
                         </Route>
 
                         <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>

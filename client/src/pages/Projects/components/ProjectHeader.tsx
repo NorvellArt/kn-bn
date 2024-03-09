@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -11,34 +11,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import EditProjectDialog from "./EditProjectDialog";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
-import { Project } from "../../../types/models/Projects";
-import ProjectModel from "../models/ProjectModel";
+import { ProjectsContext } from "../../../provider/ProjectsProvider";
 
-interface Props {
-    project: Project;
-    updateProject: (project: ProjectModel) => void;
-}
-
-const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
-    const [open, setOpen] = useState(false);
-    const [openDeleteProject, setOpenDeleteProject] = useState(false);
+const ProjectHeader: React.FC = () => {
     const navigation = useNavigate();
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleClickOpenDeleteProject = () => {
-        setOpenDeleteProject(true);
-    };
-
-    const handleCloseDeleteProject = () => {
-        setOpenDeleteProject(false);
-    };
+    const {
+        project,
+        openEditDialog,
+        openDeleteDialog,
+        handleOpenDeleteDialog,
+        handleOpenEditDialog,
+        handleCloseDeleteDialog,
+        handleCloseEditDialog,
+        updateProject,
+    } = useContext(ProjectsContext);
 
     return (
         <>
@@ -56,13 +42,13 @@ const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
                     <Button
                         variant="outlined"
                         startIcon={<DeleteIcon />}
-                        onClick={handleClickOpenDeleteProject}>
+                        onClick={handleOpenDeleteDialog}>
                         Delete
                     </Button>
 
                     <Button
                         variant="contained"
-                        onClick={handleClickOpen}
+                        onClick={handleOpenEditDialog}
                         startIcon={<EditOutlinedIcon />}>
                         Edit
                     </Button>
@@ -70,15 +56,15 @@ const ProjectHeader: React.FC<Props> = ({ project, updateProject }) => {
             </Box>
 
             <EditProjectDialog
-                open={open}
-                handleClose={handleClose}
+                open={openEditDialog}
+                handleClose={handleCloseEditDialog}
                 project={project}
                 updateProject={updateProject}
             />
 
             <DeleteConfirmationDialog
-                open={openDeleteProject}
-                handleClose={handleCloseDeleteProject}
+                open={openDeleteDialog}
+                handleClose={handleCloseDeleteDialog}
                 project={project}
             />
         </>

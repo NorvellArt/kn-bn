@@ -8,27 +8,33 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 
-import { Project } from "../../../types/models/Projects";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAxiosPrivate } from "../../../hooks/useAxiosPrivate";
-import ProjectModel from "../models/ProjectModel";
+import ProjectModel, { Project } from "../models/ProjectModel";
+import { ProjectsContext } from "../../../provider/ProjectsProvider";
+import { ProjectActionType } from "../../../types/actions/projectTypes";
 
 interface Props {
     open: boolean;
     handleClose: () => void;
-    project: Project,
-    updateProject: (project: ProjectModel) => void
+    project: Project;
+    updateProject: (project: ProjectModel) => void;
 }
 
 const EditProjectDialog: React.FC<Props> = ({ open, handleClose, project, updateProject }) => {
-    const axiosPrivate = useAxiosPrivate()
+    const axiosPrivate = useAxiosPrivate();
+    const { dispatch } = useContext(ProjectsContext);
 
-    const [projectName, setProjectName] = useState(project.name); 
+    const [projectName, setProjectName] = useState("");
+    useEffect(() => {
+        setProjectName(project.name);
+    }, [project.name]);
 
     const updateProjectHandler = async () => {
         try {
             const response = await axiosPrivate.put(`project/${project.id}`, { name: projectName });
-            updateProject(response.data)
+            updateProject(response.data);
+            dispatch({ type: ProjectActionType.UPDATE_PROJECT, payload: response.data });
             handleClose();
         } catch (e) {
             console.log(e);
@@ -65,9 +71,7 @@ const EditProjectDialog: React.FC<Props> = ({ open, handleClose, project, update
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={updateProjectHandler}>
-                    Edit
-                </Button>
+                <Button onClick={updateProjectHandler}>Edit</Button>
             </DialogActions>
         </BootstrapDialog>
     );
