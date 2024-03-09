@@ -9,8 +9,7 @@ import CreateProjectDialog from "./CreateProjectDialog";
 import { ProjectsContext } from "../../../provider/ProjectsProvider";
 
 const ProjectsControl: React.FC = () => {
-    const { handleOpenCreationDialog, handleCloseCreationDialog, openCreationDialog } =
-        useContext(ProjectsContext);
+    const { openModal, toggleModal } = useContext(ProjectsContext);
 
     return (
         <>
@@ -24,15 +23,15 @@ const ProjectsControl: React.FC = () => {
                 </Typography>
                 <Button
                     variant="contained"
-                    onClick={handleOpenCreationDialog}
+                    onClick={() => toggleModal("create")}
                     startIcon={<AddOutlinedIcon />}>
                     Create New Project
                 </Button>
             </Box>
 
             <CreateProjectDialog
-                open={openCreationDialog}
-                handleClose={handleCloseCreationDialog}
+                open={openModal.create}
+                handleClose={() => toggleModal("create")}
             />
         </>
     );

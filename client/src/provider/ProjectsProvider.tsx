@@ -11,15 +11,12 @@ interface ProjectsContextType {
     dispatch: Dispatch<Action>;
     updateProject: (project: ProjectModel) => void;
 
-    openCreationDialog: boolean;
-    openEditDialog: boolean;
-    openDeleteDialog: boolean;
-    handleOpenCreationDialog: () => void;
-    handleCloseCreationDialog: () => void;
-    handleOpenEditDialog: () => void;
-    handleCloseEditDialog: () => void;
-    handleOpenDeleteDialog: () => void;
-    handleCloseDeleteDialog: () => void;
+    openModal: {
+        edit: boolean;
+        create: boolean;
+        delete: boolean;
+    };
+    toggleModal: (modal: ModalType) => void;
 }
 
 interface Action {
@@ -27,33 +24,22 @@ interface Action {
     payload: Project | Project[]; // TODO: Это не есть хорошо
 }
 
+type ModalType = "edit" | "create" | "delete";
+
 export const ProjectsContext = createContext({} as ProjectsContextType);
 
 export const ProjectsProvider = ({ children }: ChildrenProps) => {
     const [projects, dispatch] = useReducer(reducer, []);
     const [project, setProject] = useState<ProjectModel>({} as ProjectModel);
 
-    const [openCreationDialog, setOpenCreationDialog] = useState(false);
-    const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [openModal, setOpenModal] = useState({
+        edit: false,
+        create: false,
+        delete: false,
+    });
 
-    const handleOpenCreationDialog = () => {
-        setOpenCreationDialog(true);
-    };
-    const handleCloseCreationDialog = () => {
-        setOpenCreationDialog(false);
-    };
-    const handleOpenEditDialog = () => {
-        setOpenEditDialog(true);
-    };
-    const handleCloseEditDialog = () => {
-        setOpenEditDialog(false);
-    };
-    const handleOpenDeleteDialog = () => {
-        setOpenDeleteDialog(true);
-    };
-    const handleCloseDeleteDialog = () => {
-        setOpenDeleteDialog(false);
+    const toggleModal = (modal: ModalType) => {
+        setOpenModal({ ...openModal, [modal]: !openModal[modal] });
     };
 
     const updateProject = (project: Project) => {
@@ -67,15 +53,8 @@ export const ProjectsProvider = ({ children }: ChildrenProps) => {
         dispatch,
         updateProject,
 
-        openCreationDialog,
-        openEditDialog,
-        openDeleteDialog,
-        handleOpenCreationDialog,
-        handleCloseCreationDialog,
-        handleOpenEditDialog,
-        handleCloseEditDialog,
-        handleOpenDeleteDialog,
-        handleCloseDeleteDialog,
+        openModal,
+        toggleModal,
     };
 
     return <ProjectsContext.Provider value={providerValue}>{children}</ProjectsContext.Provider>;
