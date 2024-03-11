@@ -10,6 +10,7 @@ export class ProjectService {
     public async findOne(id: string): Promise<Project> {
         return await this.prismaService.project.findUnique({
             where: { id },
+            include: { tasks: true },
         });
     }
 
